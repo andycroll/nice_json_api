@@ -81,24 +81,40 @@ module NiceJsonApi
 
       private
 
+      def auth_header
+        if @auth.key?(:user)
+          "Basic #{Base64.strict_encode64("#{@auth[:user]}:#{@auth[:password]}")}"
+        elsif @auth.key?(:bearer)
+          "Bearer #{@auth[:bearer]}"
+        end
+      end
+
+      def headers
+        {
+          'Accept' => 'application/json',
+          'Authorization' => auth_header,
+          'Content-Type' => @body ? 'application/json' : nil,
+          'User-Agent' => "NiceJsonApi Ruby #{VERSION}"
+        }.reject { |_, v| v.nil? }
+      end
+
       def klass
         NiceJsonApi::Internal::Inflector.constantize("Net::HTTP::#{@method.to_s.capitalize}")
       end
 
-      # rubocop:disable Metrics/AbcSize
+      def manual_header
+        return {} unless @auth.key?(:header)
+        { @auth[:header][:name] => @auth[:header][:value] }
+      end
+
       def req
         @req ||= begin
           req = klass.new(@uri)
           req.body = @body.to_json if @body
-          req.basic_auth @auth[:user], @auth[:password] if @auth.key?(:user)
-          req['Authorization'] = "Bearer #{@auth[:bearer]}" if @auth.key?(:bearer)
-          req[@auth[:header][:name]] = @auth[:header][:value] if @auth.key?(:header)
-          req['Content-Type'] = 'application/json' if @body
-          req['Accept'] = 'application/json'
+          headers.merge(manual_header).each { |header, value| req[header] = value }
           req
         end
       end
-      # rubocop:enable Metrics/AbcSize
 
       def ssl?
         @uri.scheme == 'https'
