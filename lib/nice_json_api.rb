@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'json'
+require 'net/http'
 require 'uri'
 
 require 'nice_json_api/version'
