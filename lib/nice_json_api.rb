@@ -1,12 +1,15 @@
+# frozen_string_literal: true
+
 require 'uri'
 
 require 'nice_json_api/version'
 require 'nice_json_api/internal/inflector'
 
 module NiceJsonApi
+  # Response from a friendly API
   class Response
     def initialize(url, method: :get, body: nil, auth: nil)
-      @url= url
+      @url = url
       @method = method
       @body = body
       @auth = auth
@@ -82,6 +85,7 @@ module NiceJsonApi
         NiceJsonApi::Internal::Inflector.constantize("Net::HTTP::#{@method.to_s.capitalize}")
       end
 
+      # rubocop:disable Metrics/AbcSize
       def req
         @req ||= begin
           req = klass.new(@uri)
@@ -94,6 +98,7 @@ module NiceJsonApi
           req
         end
       end
+      # rubocop:enable Metrics/AbcSize
 
       def ssl?
         @uri.scheme == 'https'

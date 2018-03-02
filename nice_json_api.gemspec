@@ -1,4 +1,5 @@
-# coding: utf-8
+# frozen_string_literal: true
+
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'nice_json_api/version'
@@ -9,9 +10,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Andy Croll']
   spec.email         = ['andy@goodscary.com']
 
-  spec.summary       = %q{A wrapper around Net::HTTP for any nice JSON API}
-  spec.description   = %q{Designed to need no dependancies other than Ruby's standard Net::HTTP,
-                          this gem allows you play nicely with nice JSON-based APIs}
+  spec.summary       = 'A wrapper around Net::HTTP for any nice JSON API'
+  spec.description   = 'No dependancies other than Ruby’s standard Net::HTTP, allows you play nicely with nice JSON-based APIs'
   spec.homepage      = 'https://github.com/andycroll/nice_json_api'
   spec.license       = 'MIT'
 

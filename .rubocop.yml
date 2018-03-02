@@ -1,0 +1,2 @@
+inherit_from:
+  - https://raw.githubusercontent.com/andycroll/rules/master/rubocop.yml

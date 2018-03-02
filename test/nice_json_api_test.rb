@@ -1,4 +1,4 @@
-require "test_helper"
+require 'test_helper'
 
 class NiceJsonApiTest < Minitest::Test
   def test_get_request
@@ -8,7 +8,7 @@ class NiceJsonApiTest < Minitest::Test
 
     resp = NiceJsonApi::Response.new('https://www.example.com')
 
-    assert_equal Hash[{ 'parent' => { 'one' => 'two' }, 'array' => [{}, { 'three' => 4 }, 'five']}], resp.body_hash
+    assert_equal Hash[{ 'parent' => { 'one' => 'two' }, 'array' => [{}, { 'three' => 4 }, 'five'] }], resp.body_hash
     assert_equal '{ "parent": { "one": "two" }, "array": [{}, { "three": 4 }, "five"]}', resp.body
     assert_equal '200', resp.code
     assert_equal '', resp.message
@@ -123,7 +123,7 @@ class NiceJsonApiTest < Minitest::Test
             body: '{"parent":{"one":"two"}}')
       .to_return(body: '{ "status": "success" }')
 
-    resp = NiceJsonApi::Response.new('https://www.example.com', body: { parent: { one: 'two'}})
+    resp = NiceJsonApi::Response.new('https://www.example.com', body: { parent: { one: 'two' } })
 
     assert_equal Hash[{ 'status' => 'success' }], resp.body_hash
     assert_equal '{ "status": "success" }', resp.body
@@ -133,7 +133,7 @@ class NiceJsonApiTest < Minitest::Test
 
   def test_request_with_basic_auth
     stub_request(:get, 'https://www.example.com')
-      .with(basic_auth: ['u', 'pass'], headers: { 'Accept': 'application/json' })
+      .with(basic_auth: %w[u pass], headers: { 'Accept': 'application/json' })
       .to_return(body: '{ "status": "success" }')
 
     resp = NiceJsonApi::Response.new('https://www.example.com',
@@ -151,7 +151,7 @@ class NiceJsonApiTest < Minitest::Test
       .to_return(body: '{ "status": "success" }')
 
     resp = NiceJsonApi::Response.new('https://www.example.com',
-                                     auth: { header: { name: 'X-Header-Name', value: '1234' }})
+                                     auth: { header: { name: 'X-Header-Name', value: '1234' } })
 
     assert_equal Hash[{ 'status' => 'success' }], resp.body_hash
     assert_equal '{ "status": "success" }', resp.body

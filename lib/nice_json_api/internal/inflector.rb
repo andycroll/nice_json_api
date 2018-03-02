@@ -1,8 +1,11 @@
+# frozen_string_literal: true
+
 module NiceJsonApi
   module Internal
+    # Stolen verbatim from ActiveSupport
     module Inflector
-      # Stolen verbatim from ActiveSupport
       # https://github.com/rails/rails/blob/master/activesupport/lib/active_support/inflector/methods.rb#L272
+      # rubocop:disable all
       def self.constantize(camel_cased_word)
         names = camel_cased_word.split("::".freeze)
 
@@ -33,6 +36,7 @@ module NiceJsonApi
           end
         end
       end
+      # rubocop:enable all
     end
   end
 end
