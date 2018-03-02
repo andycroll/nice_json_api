@@ -1,9 +1,16 @@
 # NiceJsonApi
 
-A useful hundred-line wrapper around `Net::HTTP` for well behaved JSON APIs.
+A useful hundred-line-ish wrapper around `Net::HTTP` for well behaved JSON-based APIs.
 
-This gem can be used for http://jsonapi.org compatible APIs but it is not exclusively for that
-use. Any 'nice' JSON-based API should work.
+This gem can be used as a basis for http://jsonapi.org compatible APIs but it is not exclusively for that use. Any 'nice' JSON-based API should work.
+
+If you're looking for a good gem to use with JSON API I like [json-api-vanilla](https://github.com/trainline/json-api-vanilla).
+
+Supports Authorization:
+* HTTP Basic Auth
+* Bearer Token Auth (like Twitter)
+* Other header-based authorisation (custom header & value)
+
 
 ## Installation
 
@@ -23,7 +30,33 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+The main interface is:
+
+```ruby
+# A simple GET request
+> response = NiceJsonApi::Response.new('http://ip.jsontest.com')
+=> #<NiceJsonApi::Response:...>
+> response.code
+#=> '200'
+> response.body
+#=> { ip: '8.8.8.8' }
+> response.raw_body
+#=> "{\"ip\": \"146.199.147.93\"}\n"
+> response.message
+#=> "OK"
+> response.raw
+#=> #<Net::HTTPOK 200 OK readbody=true>
+
+# A Bearer token POST request
+> response = NiceJsonApi::Response.new('https://api.twitter.com/1.1/statuses/update.json',
+                                       auth: { bearer: "YOURTOKEN" },
+                                       body: { status: 'This gem is awesome' },
+                                       method: :post)
+
+# A custom header GET request
+> response = NiceJsonApi::Response.new('https://yourapiserver.com/',
+                                       auth: { header: { name: 'X-Weird-Auth', value: 'TOKEN' } })
+```
 
 ## Development
 
