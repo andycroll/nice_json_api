@@ -8,8 +8,8 @@ class NiceJsonApiTest < Minitest::Test
 
     resp = NiceJsonApi::Response.new('https://www.example.com')
 
-    assert_equal Hash[{ 'parent' => { 'one' => 'two' }, 'array' => [{}, { 'three' => 4 }, 'five'] }], resp.body_hash
-    assert_equal '{ "parent": { "one": "two" }, "array": [{}, { "three": 4 }, "five"]}', resp.body
+    assert_equal Hash[{ 'parent' => { 'one' => 'two' }, 'array' => [{}, { 'three' => 4 }, 'five'] }], resp.body
+    assert_equal '{ "parent": { "one": "two" }, "array": [{}, { "three": 4 }, "five"]}', resp.raw_body
     assert_equal '200', resp.code
     assert_equal '', resp.message
   end
@@ -21,8 +21,8 @@ class NiceJsonApiTest < Minitest::Test
 
     resp = NiceJsonApi::Response.new('https://www.example.com')
 
-    assert_equal({}, resp.body_hash)
-    assert_equal '{}', resp.body
+    assert_equal({}, resp.body)
+    assert_equal '{}', resp.raw_body
     assert_equal '200', resp.code
     assert_equal '', resp.message
   end
@@ -34,8 +34,8 @@ class NiceJsonApiTest < Minitest::Test
 
     resp = NiceJsonApi::Response.new('https://www.example.com')
 
-    assert_equal({}, resp.body_hash)
-    assert_equal '', resp.body
+    assert_equal({}, resp.body)
+    assert_equal '', resp.raw_body
     assert_equal '200', resp.code
     assert_equal '', resp.message
   end
@@ -47,8 +47,8 @@ class NiceJsonApiTest < Minitest::Test
 
     resp = NiceJsonApi::Response.new('https://www.example.com')
 
-    assert_equal({}, resp.body_hash)
-    assert_equal 'null', resp.body
+    assert_equal({}, resp.body)
+    assert_equal 'null', resp.raw_body
     assert_equal '200', resp.code
     assert_equal '', resp.message
   end
@@ -60,8 +60,8 @@ class NiceJsonApiTest < Minitest::Test
 
     resp = NiceJsonApi::Response.new('www.example.com')
 
-    assert_equal Hash[{ 'status' => 'success' }], resp.body_hash
-    assert_equal '{ "status": "success" }', resp.body
+    assert_equal Hash[{ 'status' => 'success' }], resp.body
+    assert_equal '{ "status": "success" }', resp.raw_body
     assert_equal '200', resp.code
     assert_equal '', resp.message
   end
@@ -77,8 +77,8 @@ class NiceJsonApiTest < Minitest::Test
 
     resp = NiceJsonApi::Response.new('http://www.example.com')
 
-    assert_equal Hash[{ 'status' => 'success' }], resp.body_hash
-    assert_equal '{ "status": "success" }', resp.body
+    assert_equal Hash[{ 'status' => 'success' }], resp.body
+    assert_equal '{ "status": "success" }', resp.raw_body
     assert_equal '200', resp.code
     assert_equal '', resp.message
   end
@@ -98,8 +98,8 @@ class NiceJsonApiTest < Minitest::Test
 
     resp = NiceJsonApi::Response.new('http://www.example.com/api?key=value')
 
-    assert_equal Hash[{ 'status' => 'success' }], resp.body_hash
-    assert_equal '{ "status": "success" }', resp.body
+    assert_equal Hash[{ 'status' => 'success' }], resp.body
+    assert_equal '{ "status": "success" }', resp.raw_body
     assert_equal '200', resp.code
     assert_equal '', resp.message
   end
@@ -111,8 +111,8 @@ class NiceJsonApiTest < Minitest::Test
 
     resp = NiceJsonApi::Response.new('www.example.com')
 
-    assert_equal Hash[{ 'status' => 'success' }], resp.body_hash
-    assert_equal '{ "status": "success" }', resp.body
+    assert_equal Hash[{ 'status' => 'success' }], resp.body
+    assert_equal '{ "status": "success" }', resp.raw_body
     assert_equal '200', resp.code
     assert_equal '', resp.message
   end
@@ -125,8 +125,8 @@ class NiceJsonApiTest < Minitest::Test
 
     resp = NiceJsonApi::Response.new('https://www.example.com', body: { parent: { one: 'two' } })
 
-    assert_equal Hash[{ 'status' => 'success' }], resp.body_hash
-    assert_equal '{ "status": "success" }', resp.body
+    assert_equal Hash[{ 'status' => 'success' }], resp.body
+    assert_equal '{ "status": "success" }', resp.raw_body
     assert_equal '200', resp.code
     assert_equal '', resp.message
   end
@@ -139,8 +139,8 @@ class NiceJsonApiTest < Minitest::Test
     resp = NiceJsonApi::Response.new('https://www.example.com',
                                      auth: { user: 'u', password: 'pass' })
 
-    assert_equal Hash[{ 'status' => 'success' }], resp.body_hash
-    assert_equal '{ "status": "success" }', resp.body
+    assert_equal Hash[{ 'status' => 'success' }], resp.body
+    assert_equal '{ "status": "success" }', resp.raw_body
     assert_equal '200', resp.code
     assert_equal '', resp.message
   end
@@ -153,8 +153,8 @@ class NiceJsonApiTest < Minitest::Test
     resp = NiceJsonApi::Response.new('https://www.example.com',
                                      auth: { header: { name: 'X-Header-Name', value: '1234' } })
 
-    assert_equal Hash[{ 'status' => 'success' }], resp.body_hash
-    assert_equal '{ "status": "success" }', resp.body
+    assert_equal Hash[{ 'status' => 'success' }], resp.body
+    assert_equal '{ "status": "success" }', resp.raw_body
     assert_equal '200', resp.code
     assert_equal '', resp.message
   end
@@ -167,8 +167,8 @@ class NiceJsonApiTest < Minitest::Test
     resp = NiceJsonApi::Response.new('https://www.example.com',
                                      auth: { bearer: 'token1234' })
 
-    assert_equal Hash[{ 'status' => 'success' }], resp.body_hash
-    assert_equal '{ "status": "success" }', resp.body
+    assert_equal Hash[{ 'status' => 'success' }], resp.body
+    assert_equal '{ "status": "success" }', resp.raw_body
     assert_equal '200', resp.code
     assert_equal '', resp.message
   end

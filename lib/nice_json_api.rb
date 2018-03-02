@@ -9,18 +9,14 @@ module NiceJsonApi
   # Response from a friendly API
   class Response
     def initialize(url, method: :get, body: nil, auth: nil)
-      @url = url
+      @url = url.to_s
       @method = method
       @body = body
       @auth = auth
     end
 
     def body
-      raw.body
-    end
-
-    def body_hash
-      JSON.parse(body) || {}
+      JSON.parse(raw_body) || {}
     rescue JSON::ParserError
       {}
     end
@@ -35,6 +31,10 @@ module NiceJsonApi
 
     def raw
       @raw ||= fetch(initial_uri, method: @method, body: @body, auth: @auth)
+    end
+
+    def raw_body
+      raw.body
     end
 
     private
@@ -53,7 +53,7 @@ module NiceJsonApi
         response
       end
     rescue Errno::ECONNREFUSED
-      NullResponse.new('404', '{}', 'Host not found')
+      NullResponse.new('499', '{}', 'Host not found')
     rescue Errno::EHOSTUNREACH
       fetch(uri, method: method, body: body, limit: --limit, auth: auth)
     end
