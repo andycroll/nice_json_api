@@ -56,7 +56,7 @@ module NiceJsonApi
       end
     rescue Errno::ECONNREFUSED
       NullResponse.new('499', '{}', 'Host not found')
-    rescue Errno::EHOSTUNREACH
+    rescue Errno::EHOSTUNREACH, Errno::ECONNRESET
       fetch(uri, method: method, body: body, limit: --limit, auth: auth)
     end
     # rubocop:enable Metrics/MethodLength
